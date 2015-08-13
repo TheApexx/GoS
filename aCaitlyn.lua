@@ -1,5 +1,5 @@
 require('Inspired')
--- Created by TheApex, check the forums for more scripts by me
+-- Created by TheApex, check the forums for more scripts by me.
 Config = scriptConfig("Apex Caitlyn", "Apex Caitlyn")
 Config.addParam("Q", "Use Q in combo", SCRIPT_PARAM_ONOFF, true)
 Config.addParam("R", "Use ult in combo", SCRIPT_PARAM_ONOFF, true)
@@ -7,15 +7,19 @@ Config.addParam("E", "Use E to escape", SCRIPT_PARAM_ONOFF, true)
 Config.addParam("Combo", "Combo", SCRIPT_PARAM_KEYDOWN, string.byte(" "))
 
 OnLoop(function(myHero)
+	local target = GetCurrentTarget()
+	local bonusad = GetBonusDmg(myHero)*2
+	local ult1 = bonusad + 250
+	local ult2 = bonusad + 475
+	local ult3 = bonusad + 700
+	local Ultdmg1 = CalcDamage(myHero, target, ult1)
+	local Ultdmg2 = CalcDamage(myHero, target, ult2)
+	local Ultdmg3 = CalcDamage(myHero, target, ult3)
 	if Config.Combo then
 		local unit = GetTarget(3000, DAMAGE_PHYSICAL)
 		local castlevel = GetCastLevel(myHero,_R)
 		local currhp = GetCurrentHP(unit)
 		local distance = GetDistance(myHero, unit)
-		local ad = GetBonusDmg(myHero)
-		local Ultdmg1 = CalcDamage(myHero, unit, 250 + (2*ad), 0)
-		local Ultdmg2 = CalcDamage(myHero, unit, 475 + (2*ad), 0)
-		local Ultdmg3 = CalcDamage(myHero, unit, 700 + (2*ad), 0)
 		--          numbers=spelltravelspeed, spelldelay, spellrange, spellwidth, collision(t/f), addhitbox(t/f) 
 		local QPred = GetPredictionForPlayer(GetMyHeroPos(),unit,GetMoveSpeed(unit),1250,350,1250,150,false,true)
 		local EPred = GetPredictionForPlayer(GetMyHeroPos(),unit,GetMoveSpeed(unit),950,300,950,150,true,true)
