@@ -12,6 +12,10 @@ OnLoop(function(myHero)
 		local castlevel = GetCastLevel(myHero,_R)
 		local currhp = GetCurrentHP(unit)
 		local distance = GetDistance(myHero, unit)
+		local ad = GetBonusDmg(myHero)
+		local Ultdmg1 = CalcDamage(myHero, unit, 250 + (2*ad), 0)
+		local Ultdmg2 = CalcDamage(myHero, unit, 475 + (2*ad), 0)
+		local Ultdmg3 = CalcDamage(myHero, unit, 700 + (2*ad), 0)
 		--          numbers=spelltravelspeed, spelldelay, spellrange, spellwidth, collision(t/f), addhitbox(t/f) 
 		local QPred = GetPredictionForPlayer(GetMyHeroPos(),unit,GetMoveSpeed(unit),1250,350,1250,150,false,true)
 		local EPred = GetPredictionForPlayer(GetMyHeroPos(),unit,GetMoveSpeed(unit),950,300,950,150,true,true)
@@ -19,11 +23,11 @@ OnLoop(function(myHero)
 				if CanUseSpell(myHero, _Q) == READY and Config.Q and IsInDistance(unit, 1000) then
 				CastSkillShot(_Q,QPred.PredPos.x,QPred.PredPos.y,QPred.PredPos.z)
 				end
-				if CanUseSpell(myHero, _R) == READY and castlevel == 1 and Ultdmg() > currhp and Config.R and IsInDistance(unit, 2000) then
+				if CanUseSpell(myHero, _R) == READY and castlevel == 1 and Ultdmg1 > currhp and Config.R and IsInDistance(unit, 2000) then
 				CastTargetSpell(unit, _R)
-				else if CanUseSpell(myHero, _R) == READY and castlevel == 2 and Ultdmg() > currhp and Config.R and IsInDistance(unit, 2500) then
+				else if CanUseSpell(myHero, _R) == READY and castlevel == 2 and Ultdmg2 > currhp and Config.R and IsInDistance(unit, 2500) then
 				CastTargetSpell(unit, _R)
-				else if CanUseSpell(myHero, _R) == READY and castlevel == 3 and Ultdmg() > currhp and Config.R and IsInDistance(unit, 3000) then
+				else if CanUseSpell(myHero, _R) == READY and castlevel == 3 and Ultdmg3 > currhp and Config.R and IsInDistance(unit, 3000) then
 				CastTargetSpell(unit, _R)
 				end
 				end
@@ -34,20 +38,3 @@ OnLoop(function(myHero)
 		end
 	end
 end)
-function Ultdmg()
---Ult damage taking armor and armor pen into account soon to be added
-	local ad = GetBonusDmg(myHero)
-	local ArmorPen = math.floor(GetArmorPenFlat(myHero))
-    local ArmorPenPercent = math.floor(GetArmorPenPercent(myHero))
-    local Armor = GetArmor(target)*ArmorPenPercent-ArmorPen
-		if GetCastLevel(myHero, _R) == 0 then return end
-		if GetCastLevel(myHero, _R) == 1 then
-			return 250 + (2*ad)
-		end
-		if GetCastLevel(myHero, _R) == 2 then
-			return 475 + (2*ad)
-		end
-		if GetCastLevel(myHero, _R) == 3 then
-			return 700 + (2*ad)
-		end
-end
