@@ -1,5 +1,5 @@
 require('Inspired')
--- Created by TheApex, check the forums for more scripts by me.
+-- Created by TheApex, check the forums for more scripts by me
 Config = scriptConfig("Apex Caitlyn", "Apex Caitlyn")
 Config.addParam("Q", "Use Q in combo", SCRIPT_PARAM_ONOFF, true)
 Config.addParam("R", "Use ult in combo", SCRIPT_PARAM_ONOFF, true)
