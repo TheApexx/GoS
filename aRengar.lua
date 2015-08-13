@@ -4,7 +4,7 @@ Config = scriptConfig("Rengar", "Apex Rengar")
 Config.addParam("Q", "Use Q At 5 Stacks", SCRIPT_PARAM_ONOFF, true)
 Config.addParam("W", "Use W at 5 stacks", SCRIPT_PARAM_ONOFF, false)
 Config.addParam("E", "Use E at 5 stacks", SCRIPT_PARAM_ONOFF, false)
-Config.addParam("WHeal", "Use W if hp<20%", SCRIPT_PARAM_ONOFF, false)
+Config.addParam("WHeal", "Use W if hp<25%", SCRIPT_PARAM_ONOFF, false)
 Config.addParam("Combo", "Combo", SCRIPT_PARAM_KEYDOWN, string.byte(" "))
 
 OnLoop(function(myHero)
@@ -15,6 +15,11 @@ OnLoop(function(myHero)
 	local unit = GetTarget(1250, DAMAGE_PHYSICAL)
 	--          numbers=spelltravelspeed, spelldelay, spellrange, spellwidth, collision(t/f), addhitbox(t/f) 
 	local EPred = GetPredictionForPlayer(GetMyHeroPos(),unit,GetMoveSpeed(unit),900,150,1000,200,true,true)
+	if Config.WHeal and currhp > .25*maxhp then return end
+	if currmana == 5 and Config.WHeal and currhp <= .25*maxhp then
+	CastSpell(_W)
+	end
+	if not Config.WHeal then return end
 	if Config.Combo then
 		if unit then
 		if currmana == 5 then
